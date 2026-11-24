@@ -36,9 +36,7 @@ const pages = {
     "GRUPO 4 | https://chat.whatsapp.com/E6kPsiGKbdF20ggUH3KHt5?s=cl&p=i&iam=2"].join("\n")],
   "lancamentos-futuros": ["Lançamentos Futuros", lines.join("\n")],
   "dominios-oficiais": ["Domínios Oficiais", [
-    ".BET | www.reidoslot-sinais.bet | online",
-    "1.APP | www.reidoslotsinais1.app | offline",
-    "-SINAIS.COM | www.reidoslot-sinais.com | offline"].join("\n")],
+    ".APP | sinais-app.vercel.app | online"].join("\n")],
   "duvidas-frequentes": ["Dúvidas Frequentes", [
     "Como acessar jogos da Pragmatic? | Acesse a categoria Pragmatic na barra de categorias da página inicial para ver todos os jogos com sinais atualizados.",
     "Como acessar jogos da PG SOFT? | Acesse a categoria PG Soft na barra de categorias da página inicial para ver todos os jogos com sinais atualizados.",

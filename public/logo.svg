@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" width="400" height="220">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3e3c3"/>
+      <stop offset="1" stop-color="#9c8460"/>
+    </linearGradient>
+  </defs>
+  <path d="M120 70 L150 28 L200 62 L250 28 L280 70 Z" fill="url(#g)" stroke="#5a4a30" stroke-width="3" stroke-linejoin="round"/>
+  <text x="200" y="130" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="62" fill="url(#g)" stroke="#2a2118" stroke-width="3" paint-order="stroke">ANDERSON</text>
+  <text x="200" y="190" text-anchor="middle" font-family="Impact, 'Arial Black', sans-serif" font-size="56" letter-spacing="8" fill="#ffffff" stroke="#2a2118" stroke-width="3" paint-order="stroke">SLOTS</text>
+</svg>

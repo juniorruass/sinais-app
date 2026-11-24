@@ -13,11 +13,11 @@ export type MenuItem = { id: number; label: string; href: string; icon_url: stri
 export type Settings = Record<string, string>;
 
 export const SETTING_DEFAULTS: Settings = {
-  brand_name: "Sinais",
-  site_title: "Sinais de Slots - Oficial",
-  site_description: "Sinais de Slots - Estratégias para alavancar seus ganhos!",
-  site_domain: "seudominio.com",
-  logo_url: "/logo-rei.webp",
+  brand_name: "Anderson Slots",
+  site_title: "Anderson Slots - Sinais Oficial",
+  site_description: "Anderson Slots - Sinais e estratégias para alavancar seus ganhos!",
+  site_domain: "sinais-app.vercel.app",
+  logo_url: "/logo.svg",
   color_primary: "#d3b993",
   color_gradient_start: "#d3b993",
   color_gradient_end: "#9c8460",
