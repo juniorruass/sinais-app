@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import FieldInput from "@/components/admin/FieldInput";
 import { RESOURCES } from "@/lib/adminConfig";
 import { createAdminClient } from "@/lib/supabase/server";
-import { deleteRow, saveRow } from "../actions";
+import { deleteRow, saveRow } from "@/app/admin/actions";
 
 export default async function ResourcePage({ params, searchParams }: { params: Promise<{ resource: string }>; searchParams: Promise<{ cat?: string }> }) {
   const { resource } = await params;

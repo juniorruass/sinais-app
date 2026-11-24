@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { getUser } from "@/lib/data";
+import { isAdminSession } from "@/lib/admin";
 import { createAdminClient } from "@/lib/supabase/server";
 
 export async function POST(req: Request) {
-  const u = await getUser();
-  if (!u || u.role !== "admin") return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  if (!(await isAdminSession())) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   const form = await req.formData();
   const file = form.get("file");
   if (!(file instanceof File)) return NextResponse.json({ error: "sem arquivo" }, { status: 400 });

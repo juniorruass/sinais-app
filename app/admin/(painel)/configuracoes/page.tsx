@@ -1,7 +1,7 @@
 import FieldInput from "@/components/admin/FieldInput";
 import { SETTING_GROUPS } from "@/lib/adminConfig";
 import { getSettings } from "@/lib/data";
-import { saveSettings } from "../actions";
+import { saveSettings } from "@/app/admin/actions";
 
 export default async function Config() {
   const s = await getSettings();

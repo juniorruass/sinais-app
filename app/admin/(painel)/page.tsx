@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { RESOURCES } from "@/lib/adminConfig";
 import { createAdminClient } from "@/lib/supabase/server";
-import { randomizeNow } from "./actions";
+import { randomizeNow } from "@/app/admin/actions";
 
 export default async function Dashboard() {
   const sb = createAdminClient();

@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/server";
-import { setUserFlags } from "../actions";
+import { setUserFlags } from "@/app/admin/actions";
 
 export default async function Users() {
   const { data } = await createAdminClient().from("profiles").select("*").order("created_at", { ascending: false });
