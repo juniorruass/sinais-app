@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaArrowUpRightFromSquare, FaBars, FaBuilding, FaFileLines, FaGamepad, FaGauge, FaGear, FaImages, FaLayerGroup, FaRightFromBracket, FaUsers, FaWindowRestore } from "react-icons/fa6";
+import { FaArrowUpRightFromSquare, FaBars, FaBuilding, FaFileLines, FaGamepad, FaGauge, FaGear, FaImages, FaLayerGroup, FaRightFromBracket, FaShieldHalved, FaUsers, FaWindowRestore } from "react-icons/fa6";
 import { requireAdmin } from "@/lib/admin";
 import { RESOURCES } from "@/lib/adminConfig";
 import { adminLogout } from "@/app/admin/login/actions";
@@ -16,6 +16,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     { href: "/admin/configuracoes", label: "Configurações", icon: <FaGear /> },
     ...Object.entries(RESOURCES).map(([k, r]) => ({ href: `/admin/${k}`, label: r.title, icon: icons[k] ?? <FaLayerGroup /> })),
     { href: "/admin/usuarios", label: "Usuários", icon: <FaUsers /> },
+    { href: "/admin/seguranca", label: "Segurança (2FA)", icon: <FaShieldHalved /> },
   ];
   return (
     <div className="fixed inset-0 z-[500] flex flex-col overflow-hidden bg-[radial-gradient(ellipse_at_top_left,#1c1a16,#09090b_55%)] text-zinc-100 md:flex-row">

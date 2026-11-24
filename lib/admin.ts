@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 // Login do admin separado do site: ADMIN_EMAIL + ADMIN_PASSWORD (variáveis de ambiente), cookie assinado.
 export const ADMIN_COOKIE = "admin_session";
 const secret = () => process.env.ADMIN_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || "dev";
-const sign = (v: string) => createHmac("sha256", secret()).update(v).digest("hex");
+export const sign = (v: string) => createHmac("sha256", secret()).update(v).digest("hex");
 
 export function makeSession() {
   const exp = String(Date.now() + 7 * 24 * 3600_000);
