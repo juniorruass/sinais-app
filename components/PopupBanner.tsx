@@ -19,7 +19,12 @@ export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup
     const t = localStorage.getItem(KEY);
     if (t && Date.now() - Number(t) < hours * 3600_000) return;
     shown = true;
-    setCur(popups[Math.floor(Math.random() * popups.length)]);
+    // sorteia um popup diferente do último exibido
+    const last = localStorage.getItem("popup_last");
+    const pool = popups.length > 1 ? popups.filter((p) => p.image_url !== last) : popups;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    localStorage.setItem("popup_last", pick.image_url);
+    setCur(pick);
   }, [popups, hours]);
 
   useEffect(() => {
