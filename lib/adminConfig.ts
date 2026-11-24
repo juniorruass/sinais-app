@@ -78,7 +78,7 @@ export const RESOURCES: Record<string, Resource> = {
     fields: [
       { name: "slug", label: "Endereço (slug, ex: duvidas-frequentes)", type: "text" },
       { name: "title", label: "Título", type: "text" },
-      { name: "content", label: "Conteúdo", type: "textarea", wide: true },
+      { name: "content", label: "Conteúdo (uma linha por item, campos separados por |)", type: "textarea", wide: true, hint: "grupos-whatsapp: Nome | link  ·  lancamentos-futuros: Nome | link | imagem | AAAA-MM-DD HH:MM (ou: agora)  ·  dominios-oficiais: .BET | www.site.bet | online/offline  ·  duvidas-frequentes: Pergunta | Resposta  ·  vpn: 1ª linha: Botão | link, depois Passo | descrição" },
       { name: "ativo", label: "Ativa", type: "bool" },
     ],
   },

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import ContentPage from "@/components/ContentPage";
 import GamesBrowser from "@/components/GamesBrowser";
 import { createClient } from "@/lib/supabase/server";
 import { getFavoriteIds, getGames, getSettings, getUser } from "@/lib/data";
@@ -33,10 +34,5 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const sb = await createClient();
   const { data: page } = await sb.from("pages").select("title,content").eq("slug", slug).eq("ativo", true).maybeSingle();
   if (!page) notFound();
-  return (
-    <div className="container mx-auto max-w-3xl px-6 py-8">
-      <h1 className="mb-6 font-bold text-3xl text-primary">{page.title}</h1>
-      <div className="space-y-4 whitespace-pre-line font-medium leading-relaxed text-white/90">{page.content}</div>
-    </div>
-  );
+  return <ContentPage slug={slug} title={page.title} content={page.content} />;
 }
