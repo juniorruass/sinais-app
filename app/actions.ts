@@ -28,7 +28,7 @@ export async function signUp(_: AuthState, form: FormData): Promise<AuthState> {
   const email = String(form.get("email") ?? "").trim();
   const password = String(form.get("password") ?? "");
   if (!name || !email) return { error: "Preencha todos os campos." };
-  if (password.length < 6) return { error: "A senha precisa ter pelo menos 6 caracteres." };
+  if (password.length < 8) return { error: "A senha precisa ter pelo menos 8 caracteres." };
   if (password !== String(form.get("confirm") ?? "")) return { error: "As senhas não conferem." };
   const sb = await createClient();
   const { data, error } = await sb.auth.signUp({ email, password, options: { data: { name } } });

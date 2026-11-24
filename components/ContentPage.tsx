@@ -1,6 +1,7 @@
 import CopyButton from "./CopyButton";
 
 const parse = (content: string) => content.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => l.split("|").map((x) => x.trim()));
+const safe = (u?: string) => (u && /^(https?:\/\/|\/(?!\/)|#)/i.test(u) ? u : "#");
 const card = "rounded-3xl border-2 border-secondary/60 bg-black/30";
 const gold = "bg-linear-to-r from-gradient-start to-gradient-end text-black";
 
@@ -31,7 +32,7 @@ export default function ContentPage({ slug, title, content }: { slug: string; ti
           {rows.map(([nome, link], i) => (
             <div key={i} className={`${card} flex items-center justify-between gap-3 p-4`}>
               <span className="font-bold">{nome}</span>
-              <a href={link} target="_blank" rel="noopener noreferrer" className={`${gold} rounded-full px-5 py-2 font-bold text-xs uppercase`}>Entrar</a>
+              <a href={safe(link)} target="_blank" rel="noopener noreferrer" className={`${gold} rounded-full px-5 py-2 font-bold text-xs uppercase`}>Entrar</a>
             </div>
           ))}
         </div>
@@ -53,7 +54,7 @@ export default function ContentPage({ slug, title, content }: { slug: string; ti
                 <div className="mt-3 text-sm">{rem ? <>Faltam <b>{rem}</b></> : <b className="text-primary">Lançado!</b>}</div>
                 {rem || !link
                   ? <div className="mt-3 rounded-full bg-white/10 py-2 text-center font-bold text-white/40 text-xs uppercase">Aguarde</div>
-                  : <a href={link} target="_blank" rel="noopener noreferrer" className={`${gold} mt-3 block rounded-full py-2 text-center font-bold text-xs uppercase`}>Acessar agora</a>}
+                  : <a href={safe(link)} target="_blank" rel="noopener noreferrer" className={`${gold} mt-3 block rounded-full py-2 text-center font-bold text-xs uppercase`}>Acessar agora</a>}
               </div>
             );
           })}
@@ -111,7 +112,7 @@ export default function ContentPage({ slug, title, content }: { slug: string; ti
             </div>
           ))}
         </div>
-        {btn && <a href={btn[1]} target="_blank" rel="noopener noreferrer" className={`${gold} mx-auto mt-8 block w-fit rounded-full px-8 py-3 font-black uppercase`}>{btn[0]}</a>}
+        {btn && <a href={safe(btn[1])} target="_blank" rel="noopener noreferrer" className={`${gold} mx-auto mt-8 block w-fit rounded-full px-8 py-3 font-black uppercase`}>{btn[0]}</a>}
       </div>
     );
   }
