@@ -16,7 +16,7 @@ export const SETTING_DEFAULTS: Settings = {
   brand_name: "Anderson Slots",
   site_title: "Anderson Slots - Sinais Oficial",
   site_description: "Anderson Slots - Sinais e estratégias para alavancar seus ganhos!",
-  site_domain: "sinais-app.vercel.app",
+  site_domain: "sinais.upflu.digital",
   logo_url: "/logo.svg",
   color_primary: "#d3b993",
   color_gradient_start: "#d3b993",
