@@ -7,8 +7,8 @@ import type { Popup } from "@/lib/data";
 const KEY = "popup_dismissed_at";
 let shown = false;
 
-export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup, "image_url" | "link">[]; hours: number; cta: string }) {
-  const [cur, setCur] = useState<Pick<Popup, "image_url" | "link"> | null>(null);
+export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup, "image_url" | "link" | "peso">[]; hours: number; cta: string }) {
+  const [cur, setCur] = useState<Pick<Popup, "image_url" | "link" | "peso"> | null>(null);
   const [skip, setSkip] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -19,11 +19,13 @@ export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup
     const t = localStorage.getItem(KEY);
     if (t && Date.now() - Number(t) < hours * 3600_000) return;
     shown = true;
-    // sorteia um popup diferente do último exibido
-    const last = localStorage.getItem("popup_last");
-    const pool = popups.length > 1 ? popups.filter((p) => p.image_url !== last) : popups;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
-    localStorage.setItem("popup_last", pick.image_url);
+    // sorteio ponderado pelo peso definido no admin
+    const w = popups.map((p) => Math.max(0, p.peso ?? 1));
+    const total = w.reduce((x, y) => x + y, 0);
+    if (!total) return;
+    let r = Math.random() * total, i = 0;
+    while (i < w.length - 1 && r >= w[i]) { r -= w[i]; i++; }
+    const pick = popups[i];
     setCur(pick);
   }, [popups, hours]);
 

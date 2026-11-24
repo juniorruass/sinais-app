@@ -53,10 +53,11 @@ export const RESOURCES: Record<string, Resource> = {
   },
   popups: {
     table: "popups", title: "Popups", singular: "popup",
-    summary: (r) => `Popup → ${r.link || "sem link"}`,
+    summary: (r) => `Popup (peso ${r.peso ?? 1}) → ${r.link || "sem link"}`,
     fields: [
       { name: "image_url", label: "Imagem (vertical)", type: "image" },
       { name: "link", label: "Link", type: "text", wide: true },
+      { name: "peso", label: "Chance de aparecer (peso: 1 = normal, 3 = 3x mais, 0 = nunca)", type: "number" },
       ...common,
     ],
   },

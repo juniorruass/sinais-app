@@ -8,7 +8,7 @@ export type Game = {
 };
 export type Platform = { id: number; nome: string | null; image_url: string; link: string; badge: string | null };
 export type Slide = { id: number; image_url: string; alt: string | null; link: string | null };
-export type Popup = { id: number; image_url: string; link: string | null };
+export type Popup = { id: number; image_url: string; link: string | null; peso?: number };
 export type MenuItem = { id: number; label: string; href: string; icon_url: string | null; externo: boolean };
 export type Settings = Record<string, string>;
 
