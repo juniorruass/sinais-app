@@ -6,7 +6,7 @@ import { getFavoriteIds, getGames, getPlatforms, getSettings, getSlides, getTopD
 
 export default async function Home() {
   const [s, slides, platforms, top, games, user] = await Promise.all([
-    getSettings(), getSlides(), getPlatforms(), getTopDistributions(20), getGames("PG", 20), getUser(),
+    getSettings(), getSlides(), getPlatforms(), getTopDistributions(20), getGames(), getUser(),
   ]);
   const favs = await getFavoriteIds(user?.id);
   return (

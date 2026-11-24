@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FaStar, FaHeart } from "react-icons/fa6";
 import { TbWorldSearch } from "react-icons/tb";
 import type { Game } from "@/lib/data";
@@ -16,6 +16,17 @@ export default function GamesBrowser({
     const t = q.trim().toLowerCase();
     return games.filter((g) => (tab === "all" || favs.has(g.id)) && (!t || g.nome.toLowerCase().includes(t)));
   }, [games, tab, q, favs]);
+
+  const [shown, setShown] = useState(20);
+  const sentinel = useRef<HTMLDivElement>(null);
+  useEffect(() => { setShown(20); }, [tab, q]);
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el) return;
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) setShown((n) => n + 20); }, { rootMargin: "600px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [list.length, shown]);
 
   function onFav(id: number, v: boolean) {
     setFavs((p) => { const n = new Set(p); if (v) n.add(id); else n.delete(id); return n; });
@@ -46,9 +57,10 @@ export default function GamesBrowser({
           <p className="py-10 text-center text-white/60">{tab === "fav" ? (userId ? "Você ainda não favoritou nenhum jogo." : "Entre na sua conta para ver seus favoritos.") : "Nenhum jogo encontrado."}</p>
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center">
-            {list.map((g) => <GameCard key={g.id} game={g} userId={userId} isFavorited={favs.has(g.id)} onFav={onFav} />)}
+            {list.slice(0, shown).map((g) => <GameCard key={g.id} game={g} userId={userId} isFavorited={favs.has(g.id)} onFav={onFav} />)}
           </div>
         )}
+        {shown < list.length && <div ref={sentinel} className="h-10" />}
       </div>
     </>
   );
