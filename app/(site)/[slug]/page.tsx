@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import ContentPage from "@/components/ContentPage";
 import GamesBrowser from "@/components/GamesBrowser";
 import { createClient } from "@/lib/supabase/server";
-import { getFavoriteIds, getGames, getSettings, getUser } from "@/lib/data";
+import { currentDomain, getFavoriteIds, getGames, getSettings, getUser } from "@/lib/data";
 
 const CATS: Record<string, { cat: string; banner: string; alt: string }> = {
   "pg-soft": { cat: "PG", banner: "/banners/themes/gucci/pg.png", alt: "PG Soft" },
@@ -34,5 +34,15 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const sb = await createClient();
   const { data: page } = await sb.from("pages").select("title,content").eq("slug", slug).eq("ativo", true).maybeSingle();
   if (!page) notFound();
-  return <ContentPage slug={slug} title={page.title} content={page.content} />;
+  let content = page.content as string;
+  if (slug === "dominios-oficiais") {
+    // O domínio em uso aparece sempre, automático; linhas do admin entram como domínios extras.
+    const host = await currentDomain();
+    if (host) {
+      const ext = "." + host.split(".").slice(1).join(".").toUpperCase();
+      const extra = content.split("\n").filter((l) => l.trim() && !l.toLowerCase().includes(host));
+      content = [`${ext} | ${host} | online`, ...extra].join("\n");
+    }
+  }
+  return <ContentPage slug={slug} title={page.title} content={content} />;
 }

@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 export type Game = {
@@ -16,7 +17,7 @@ export const SETTING_DEFAULTS: Settings = {
   brand_name: "Anderson Slots",
   site_title: "Anderson Slots - Sinais Oficial",
   site_description: "Anderson Slots - Sinais e estratégias para alavancar seus ganhos!",
-  site_domain: "sinais.upflu.digital",
+  site_domain: "auto",
   logo_url: "/logo.svg",
   color_primary: "#d3b993",
   color_gradient_start: "#d3b993",
@@ -41,11 +42,20 @@ export const SETTING_DEFAULTS: Settings = {
   popup_hours: "3",
 };
 
+/** Domínio em que o site está sendo acessado agora (muda sozinho se você trocar de domínio). */
+export async function currentDomain(): Promise<string> {
+  const h = await headers();
+  const raw = (h.get("x-forwarded-host") ?? h.get("host") ?? "").split(",")[0].trim().toLowerCase().replace(/:\d+$/, "");
+  return /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/.test(raw) ? raw : "";
+}
+
 export async function getSettings(): Promise<Settings> {
   const sb = await createClient();
   const { data } = await sb.from("site_settings").select("key,value");
   const s = { ...SETTING_DEFAULTS };
   for (const r of data ?? []) if (r.value !== "" || !(r.key in s)) s[r.key] = r.value;
+  // site_domain vazio ou "auto" = usa o domínio de acesso; preencher no admin força um domínio fixo.
+  if (!s.site_domain || s.site_domain.toLowerCase() === "auto") s.site_domain = (await currentDomain()) || "localhost";
   return s;
 }
 

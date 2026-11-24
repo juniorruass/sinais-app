@@ -89,7 +89,7 @@ export const SETTING_GROUPS: { grupo: string; items: Field[] }[] = [
     { name: "brand_name", label: "Nome da marca", type: "text" },
     { name: "site_title", label: "Título do site (aba do navegador)", type: "text" },
     { name: "site_description", label: "Descrição (SEO)", type: "textarea", wide: true },
-    { name: "site_domain", label: "Domínio do site", type: "text" },
+    { name: "site_domain", label: "Domínio do site (deixe \"auto\" para usar o domínio de acesso automaticamente)", type: "text" },
     { name: "logo_url", label: "Logo", type: "image" },
     { name: "favicon_url", label: "Favicon", type: "image" },
   ]},
