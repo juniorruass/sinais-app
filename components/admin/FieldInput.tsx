@@ -8,6 +8,7 @@ const base = "w-full rounded-xl border border-zinc-700/80 bg-zinc-950/60 px-3.5 
 export default function FieldInput({ f, value }: { f: Field; value: unknown }) {
   const [img, setImg] = useState(String(value ?? ""));
   const [busy, setBusy] = useState(false);
+  const [pct, setPct] = useState(0);
   const [drag, setDrag] = useState(false);
   const file = useRef<HTMLInputElement>(null);
   const wrap = (child: React.ReactNode) => (
@@ -29,14 +30,38 @@ export default function FieldInput({ f, value }: { f: Field; value: unknown }) {
   if (f.type === "color")
     return wrap(<span className="flex gap-2"><input type="color" value={img || "#000000"} onChange={(e) => setImg(e.target.value)} className="h-10 w-14 cursor-pointer rounded-lg bg-transparent" /><input name={f.name} value={img} onChange={(e) => setImg(e.target.value)} className={base} /></span>);
   if (f.type === "image") {
-    async function up(fl: File) {
-      setBusy(true);
-      const fd = new FormData(); fd.append("file", fl);
+    // Reduz a imagem no próprio navegador (máx. 1920px, WebP) — envia bem menos dados.
+    async function shrink(fl: File): Promise<File> {
+      if (fl.type === "image/gif" || fl.type === "image/avif" || fl.size < 300_000) return fl;
       try {
-        const r = await fetch("/admin/upload", { method: "POST", body: fd });
-        const j = await r.json();
-        if (j.url) setImg(j.url); else alert(j.error ?? "Falha no upload");
-      } catch { alert("Falha no upload"); }
+        const bmp = await createImageBitmap(fl);
+        const k = Math.min(1, 1920 / Math.max(bmp.width, bmp.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+        c.getContext("2d")!.drawImage(bmp, 0, 0, c.width, c.height);
+        const blob = await new Promise<Blob | null>((ok) => c.toBlob(ok, "image/webp", 0.88));
+        if (blob && blob.size < fl.size) return new File([blob], fl.name.replace(/\.\w+$/, "") + ".webp", { type: "image/webp" });
+      } catch {}
+      return fl;
+    }
+    async function up(orig: File) {
+      setBusy(true); setPct(0);
+      const fl = await shrink(orig);
+      const fd = new FormData(); fd.append("file", fl);
+      await new Promise<void>((done) => {
+        const x = new XMLHttpRequest();
+        x.open("POST", "/admin/upload");
+        x.timeout = 120_000;
+        x.upload.onprogress = (e) => { if (e.lengthComputable) setPct(Math.round((e.loaded / e.total) * 100)); };
+        x.onload = () => {
+          try { const j = JSON.parse(x.responseText); if (j.url) setImg(j.url); else alert(j.error ?? "Falha no upload"); }
+          catch { alert("Falha no upload"); }
+          done();
+        };
+        x.onerror = () => { alert("Falha no upload. Verifique a conexão."); done(); };
+        x.ontimeout = () => { alert("O envio demorou demais. Tente uma imagem menor."); done(); };
+        x.send(fd);
+      });
       setBusy(false);
     }
     return (
@@ -53,7 +78,7 @@ export default function FieldInput({ f, value }: { f: Field; value: unknown }) {
           <div className="flex min-w-0 flex-1 flex-col gap-2">
             <button type="button" onClick={() => file.current?.click()} disabled={busy}
               className="flex w-fit items-center gap-2 rounded-lg bg-[#d3b993] px-4 py-2 font-bold text-black text-sm transition hover:brightness-110 disabled:opacity-60">
-              <FaCloudArrowUp />{busy ? "Enviando..." : img ? "Trocar imagem" : "Enviar imagem"}
+              <FaCloudArrowUp />{busy ? (pct > 0 ? `Enviando... ${pct}%` : "Preparando...") : img ? "Trocar imagem" : "Enviar imagem"}
             </button>
             <span className="text-xs text-zinc-500">ou arraste a imagem para cá</span>
             <input name={f.name} value={img} onChange={(e) => setImg(e.target.value)} placeholder="ou cole a URL da imagem" className={`${base} !py-1.5 !text-xs`} />
