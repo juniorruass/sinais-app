@@ -15,11 +15,11 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const s = await getSettings();
-  const css = `:root{--color-primary:${s.color_primary};--color-gradient-start:${s.color_gradient_start};--color-gradient-end:${s.color_gradient_end};--color-secondary:${s.color_secondary}}`;
+  const css = `:root{--color-primary:${s.color_primary};--color-gradient-start:${s.color_gradient_start};--color-gradient-end:${s.color_gradient_end};--color-secondary:${s.color_secondary};--color-btn:${s.color_btn};--color-card:${s.color_card};--color-footer:${s.color_footer};--color-panel:${s.color_panel};--color-nav:${s.color_nav};--color-nav-text:${s.color_nav_text};--color-field:${s.color_field};--color-field-text:${s.color_field_text};--color-main:${s.color_main};--color-page:${s.color_page}}`;
   return (
     <html lang="pt-BR">
       <head><style dangerouslySetInnerHTML={{ __html: css }} /></head>
-      <body className={`${poppins.variable} text-white antialiased`}>{children}</body>
+      <body className={`${poppins.variable} text-main antialiased`}>{children}</body>
     </html>
   );
 }

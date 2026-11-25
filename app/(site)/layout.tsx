@@ -14,7 +14,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/"><img alt="Logo" width={73} height={75} src={s.logo_url} className="h-[75px] w-auto" /></Link>
           <div className="flex items-center gap-4">
-            {!user && <Link href="/cadastro" className="flex w-fit flex-col rounded-full bg-linear-to-r from-gradient-start to-gradient-end px-4 py-1 text-center font-bold text-black text-xs leading-3 transition-all hover:scale-110">Cadastre-se</Link>}
+            {!user && <Link href="/cadastro" className="flex w-fit flex-col rounded-full bg-linear-to-r from-gradient-start to-gradient-end px-4 py-1 text-center font-bold text-btn text-xs leading-3 transition-all hover:scale-110">Cadastre-se</Link>}
             <MenuButton user={user ? { name: user.name } : null} items={menu} isAdmin={user?.role === "admin"} />
           </div>
         </div>
@@ -22,7 +22,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <NextUpdateFloat intervalMin={Number(s.signals_interval_min) || 5} />
       <PopupBanner popups={popups} hours={Number(s.popup_hours) || 3} cta={user ? "Ver mais" : "Quero Testar"} />
       <main>{children}</main>
-      <footer className="mt-4 border-gradient border-y-4 bg-zinc-900 py-16">
+      <footer className="mt-4 border-gradient border-y-4 bg-footer py-16">
         <div className="container mx-auto px-4 pb-8">
           <div className="mx-auto mb-8 flex w-fit">
             {[["icon-01.png", "104 / 126"], ["icon-02.png", "127 / 126"], ["icon-03.png", "124 / 126"]].map(([n, ar]) => (

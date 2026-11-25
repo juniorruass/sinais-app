@@ -5,6 +5,16 @@
   --color-gradient-end: #9c8460;
   --color-primary: #d3b993;
   --color-secondary: #d7cbb4;
+  --color-btn: #000000;
+  --color-card: #282828;
+  --color-footer: #18181b;
+  --color-panel: #000000;
+  --color-nav: #ffffff;
+  --color-nav-text: #000000;
+  --color-field: #ffffff;
+  --color-field-text: #000000;
+  --color-main: #ffffff;
+  --color-page: #111111;
 }
 
 html {
@@ -13,7 +23,7 @@ html {
   background-image: url(/fundo-mobile.png);
   background-size: contain;
   background-attachment: fixed;
-  background-color: #111;
+  background-color: var(--color-page);
 }
 @media (min-width: 40rem) {
   html { background-size: cover; }

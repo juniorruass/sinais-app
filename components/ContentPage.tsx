@@ -3,7 +3,7 @@ import CopyButton from "./CopyButton";
 const parse = (content: string) => content.split("\n").map((l) => l.trim()).filter(Boolean).map((l) => l.split("|").map((x) => x.trim()));
 const safe = (u?: string) => (u && /^(https?:\/\/|\/(?!\/)|#)/i.test(u) ? u : "#");
 const card = "rounded-3xl border-2 border-secondary/60 bg-black/30";
-const gold = "bg-linear-to-r from-gradient-start to-gradient-end text-black";
+const gold = "bg-linear-to-r from-gradient-start to-gradient-end text-btn";
 
 function Title({ a, b, icon }: { a: string; b?: string; icon?: string }) {
   return (

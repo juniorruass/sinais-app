@@ -157,9 +157,9 @@ export default function GameCard({
       )}
       {needLogin && (
         <div className="fixed inset-0 z-300 flex items-end justify-center bg-black/60" onClick={() => setNeedLogin(false)}>
-          <div className="w-full max-w-md rounded-t-3xl bg-black p-6 text-center" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full max-w-md rounded-t-3xl bg-panel p-6 text-center" onClick={(e) => e.stopPropagation()}>
             <p className="mb-4 font-bold">Entre para favoritar jogos e ver apostas sugeridas</p>
-            <a href="/login" className="mb-2 block rounded-full bg-linear-to-r from-gradient-start to-gradient-end py-3 font-bold text-black">Entrar</a>
+            <a href="/login" className="mb-2 block rounded-full bg-linear-to-r from-gradient-start to-gradient-end py-3 font-bold text-btn">Entrar</a>
             <a href="/cadastro" className="block rounded-full border border-white/20 py-3 font-bold">Cadastre-se</a>
           </div>
         </div>

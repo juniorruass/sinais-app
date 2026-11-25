@@ -13,7 +13,7 @@ export default async function Home() {
     <div>
       <Banner slides={slides} />
       <div className="container mx-auto my-8 max-w-5xl">
-        <div className="relative mx-12 rounded-[50px] border-2 border-secondary bg-[#282828] py-8">
+        <div className="relative mx-12 rounded-[50px] border-2 border-secondary bg-card py-8">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 translate-y-[-50%]"><img alt="" width={1032} height={192} src="/icons/theme-icons/gucci/rp-top.png" className="h-auto w-3xs min-w-52" /></div>
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[50%]"><img alt="" width={2832} height={546} src="/icons/theme-icons/gucci/rp-bottom.png" className="h-auto w-xs min-w-3xs" /></div>
           <div className="flex flex-col items-center">
@@ -24,7 +24,7 @@ export default async function Home() {
             {platforms.map((p) => (
               <a key={p.id} href={p.link} target="_blank" rel="noopener noreferrer" className="relative transition-transform duration-300 hover:scale-105">
                 <img src={p.image_url} alt={p.nome ?? ""} width={85} height={85} className="size-[85px] rounded-[13px] object-cover" />
-                {p.badge && <div className="w-fit rounded-lg bg-linear-to-r from-gradient-start to-gradient-end px-3 py-0.5 font-bold text-[11px] text-black uppercase tracking-wider absolute -top-2 -right-2">{p.badge}</div>}
+                {p.badge && <div className="w-fit rounded-lg bg-linear-to-r from-gradient-start to-gradient-end px-3 py-0.5 font-bold text-[11px] text-btn uppercase tracking-wider absolute -top-2 -right-2">{p.badge}</div>}
               </a>
             ))}
           </div>

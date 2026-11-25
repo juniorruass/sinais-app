@@ -50,12 +50,12 @@ export default function NextUpdateFloat({ intervalMin }: { intervalMin: number }
 
   return (
     <div className="fixed right-0 bottom-24 z-40 flex items-center">
-      <div className="flex items-center gap-2 rounded-full rounded-tr-none border-2 border-zinc-200 bg-white py-2.5 pr-8 pl-4 shadow-lg">
-        <TbNavigationFilled className="ml-auto rotate-90 text-black" />
-        <span className="whitespace-nowrap font-bold text-black text-xs">{text}</span>
+      <div className="flex items-center gap-2 rounded-full rounded-tr-none border-2 border-field-text/20 bg-field py-2.5 pr-8 pl-4 shadow-lg">
+        <TbNavigationFilled className="ml-auto rotate-90 text-field-text" />
+        <span className="whitespace-nowrap font-bold text-field-text text-xs">{text}</span>
       </div>
       <div className={`-ml-6 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-white shadow-md ${phase !== "idle" || pending ? "animate-pulse" : ""}`} style={{ background: `conic-gradient(from -90deg, ${seg})` }}>
-        <div className="h-4 w-4 rounded-full bg-black" />
+        <div className="h-4 w-4 rounded-full bg-field-text" />
       </div>
     </div>
   );

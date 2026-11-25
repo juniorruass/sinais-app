@@ -48,13 +48,13 @@ export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup
         <a href={cur.link ?? "#"} target="_blank" rel="noopener noreferrer" onClick={close} className="block">
           <img src={cur.image_url} alt="Promoção" width={384} height={538} onLoad={() => setLoaded(true)} style={{ display: "block", width: "100%", height: "auto", maxHeight: "calc(85dvh - 100px)" }} />
         </a>
-        <div className="bg-black px-4 py-3">
+        <div className="bg-panel px-4 py-3">
           <label className="mb-3 flex cursor-pointer items-center gap-2.5">
             <input type="checkbox" checked={skip} onChange={(e) => setSkip(e.target.checked)} className="h-4 w-4 cursor-pointer accent-primary" />
             <span className="text-white/60 text-xs">Não mostrar por {hours} horas</span>
           </label>
           <div className="flex gap-2">
-            <a href={cur.link ?? "#"} target="_blank" rel="noopener noreferrer" onClick={close} className="flex flex-1 items-center justify-center rounded-lg bg-linear-to-r from-gradient-start to-gradient-end py-2.5 font-bold text-black text-sm transition-opacity hover:opacity-90">{cta}</a>
+            <a href={cur.link ?? "#"} target="_blank" rel="noopener noreferrer" onClick={close} className="flex flex-1 items-center justify-center rounded-lg bg-linear-to-r from-gradient-start to-gradient-end py-2.5 font-bold text-btn text-sm transition-opacity hover:opacity-90">{cta}</a>
             <button type="button" onClick={close} className="flex-1 rounded-lg border border-white/20 py-2.5 font-bold text-sm text-white/70 transition-colors hover:border-white/40 hover:text-white">Fechar</button>
           </div>
         </div>

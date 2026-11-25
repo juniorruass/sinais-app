@@ -30,10 +30,10 @@ export default function MenuButton({ user, items, isAdmin }: { user: { name: str
       <button type="button" aria-label="Menu" className="text-white transition-all duration-300 hover:scale-110" onClick={() => setOpen(true)}><FaSliders size={26} /></button>
       {open && (
         <div className="fixed inset-0 z-50">
-          <aside className="absolute top-26 left-0 z-10 h-full w-full overflow-y-auto rounded-r-[70px] border-gradient border-t-4 bg-black px-4 pb-40">
+          <aside className="absolute top-26 left-0 z-10 h-full w-full overflow-y-auto rounded-r-[70px] border-gradient border-t-4 bg-panel px-4 pb-40">
             <div className="flex items-center px-4 py-4">
               {user && <span className="font-semibold text-lg">{user.name}</span>}
-              <button type="button" onClick={close} className="ml-auto rounded-full bg-primary p-1.5"><FaX className="size-3 text-black hover:text-zinc-200" /></button>
+              <button type="button" onClick={close} className="ml-auto rounded-full bg-primary p-1.5"><FaX className="size-3 text-btn" /></button>
             </div>
             <div className="flex flex-col gap-4 py-4">
               {items.map((m) => <Item key={m.id} href={m.href} label={m.label} icon={m.icon_url} external={m.externo} onClose={close} />)}

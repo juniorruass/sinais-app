@@ -37,19 +37,19 @@ export default function GamesBrowser({
       <div className="relative mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 rounded-full bg-black/40 p-1.5 px-6 sm:max-w-3xl">
         <div className="absolute -top-4 left-0 sm:-left-2"><img alt="filter" width={28} height={41} src="/icons/theme-icons/gucci/bee.png" /></div>
         <div className="absolute right-0 -bottom-2 sm:-right-2"><img alt="filter" width={38} height={37} src="/icons/theme-icons/gucci/bee-solo.png" /></div>
-        <button type="button" onClick={() => setTab("all")} className={`flex w-full items-center justify-center gap-2 rounded-full py-2 font-black text-sm transition-all duration-300 sm:text-base ${tab === "all" ? "bg-linear-to-r from-gradient-start to-gradient-end text-black" : "text-white/70 hover:text-white"}`}>
+        <button type="button" onClick={() => setTab("all")} className={`flex w-full items-center justify-center gap-2 rounded-full py-2 font-black text-sm transition-all duration-300 sm:text-base ${tab === "all" ? "bg-linear-to-r from-gradient-start to-gradient-end text-btn" : "text-white/70 hover:text-white"}`}>
           <FaStar size={tab === "all" ? 24 : 18} />Todos
         </button>
-        <button type="button" onClick={() => setTab("fav")} className={`flex w-full items-center justify-center gap-2 rounded-full py-2 font-black text-sm transition-all duration-300 sm:text-base ${tab === "fav" ? "bg-linear-to-r from-gradient-start to-gradient-end text-black" : "text-white/70 hover:text-white"}`}>
+        <button type="button" onClick={() => setTab("fav")} className={`flex w-full items-center justify-center gap-2 rounded-full py-2 font-black text-sm transition-all duration-300 sm:text-base ${tab === "fav" ? "bg-linear-to-r from-gradient-start to-gradient-end text-btn" : "text-white/70 hover:text-white"}`}>
           <FaHeart size={tab === "fav" ? 24 : 18} />Favoritos
         </button>
       </div>
       <div className="mx-auto my-6 max-w-3xl px-4">
-        <div className="relative flex h-11 w-full items-center rounded-full bg-white">
+        <div className="relative flex h-11 w-full items-center rounded-full bg-field">
           <div className="absolute -top-3 -right-3"><img alt="filter" width={77} height={63} src="/icons/theme-icons/gucci/search-right.png" /></div>
           <div className="-translate-1/2 absolute top-1/2 left-8 rounded-full bg-black p-1"><TbWorldSearch className="size-7 text-white" /></div>
           <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder={placeholder}
-            className="ml-12 h-full w-full rounded-r-full pl-4 font-semibold text-black placeholder:text-black focus-visible:outline-0" />
+            className="ml-12 h-full w-full rounded-r-full pl-4 font-semibold text-field-text placeholder:text-field-text focus-visible:outline-0" />
         </div>
       </div>
       <div className="container mx-auto max-w-5xl px-4">
