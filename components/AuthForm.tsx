@@ -13,9 +13,9 @@ export default function AuthForm({ mode }: { mode: "login" | "cadastro" }) {
       <h1 className="mb-6 text-center font-bold text-3xl uppercase text-primary">{reg ? "Cadastre-se" : "Entrar"}</h1>
       <form action={action} className="flex flex-col gap-4">
         {reg && <label className="flex flex-col gap-1 text-sm font-semibold">Nome Completo<input name="name" required placeholder="Seu nome" className={input} /></label>}
-        <label className="flex flex-col gap-1 text-sm font-semibold">E-mail<input name="email" type="email" required placeholder="voce@email.com" className={input} /></label>
-        <label className="flex flex-col gap-1 text-sm font-semibold">Senha<input name="password" type="password" required minLength={6} placeholder="••••••" className={input} /></label>
-        {reg && <label className="flex flex-col gap-1 text-sm font-semibold">Confirmar Senha<input name="confirm" type="password" required minLength={6} placeholder="••••••" className={input} /></label>}
+        <label className="flex flex-col gap-1 text-sm font-semibold">Telefone (DDD + número)<input name="phone" type="tel" inputMode="numeric" autoComplete="tel-national" required minLength={10} maxLength={16} placeholder="11999998888" className={input} /></label>
+        <label className="flex flex-col gap-1 text-sm font-semibold">Senha<input name="password" type="password" required minLength={reg ? 8 : 1} placeholder="••••••••" className={input} /></label>
+        {reg && <label className="flex flex-col gap-1 text-sm font-semibold">Confirmar Senha<input name="confirm" type="password" required minLength={8} placeholder="••••••" className={input} /></label>}
         {state?.error && <p className="rounded-xl bg-red-500/20 px-4 py-2 text-center text-sm text-red-200">{state.error}</p>}
         <button disabled={pending} className="mt-2 rounded-full bg-linear-to-r from-gradient-start to-gradient-end py-3 font-black text-black uppercase transition-all hover:scale-[1.02] disabled:opacity-60">
           {pending ? "Aguarde..." : reg ? "Finalizar Cadastro" : "Entrar"}
