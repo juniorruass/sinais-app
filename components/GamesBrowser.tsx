@@ -35,8 +35,8 @@ export default function GamesBrowser({
   return (
     <>
       <div className="relative mx-auto mt-4 flex max-w-sm items-center justify-center gap-2 rounded-full bg-black/40 p-1.5 px-6 sm:max-w-3xl">
-        <div className="absolute -top-4 -left-2"><img alt="filter" width={28} height={41} src="/icons/theme-icons/gucci/bee.png" /></div>
-        <div className="absolute -right-2 -bottom-2"><img alt="filter" width={38} height={37} src="/icons/theme-icons/gucci/bee-solo.png" /></div>
+        <div className="absolute -top-4 left-0 sm:-left-2"><img alt="filter" width={28} height={41} src="/icons/theme-icons/gucci/bee.png" /></div>
+        <div className="absolute right-0 -bottom-2 sm:-right-2"><img alt="filter" width={38} height={37} src="/icons/theme-icons/gucci/bee-solo.png" /></div>
         <button type="button" onClick={() => setTab("all")} className={`flex w-full items-center justify-center gap-2 rounded-full py-2 font-black text-sm transition-all duration-300 sm:text-base ${tab === "all" ? "bg-linear-to-r from-gradient-start to-gradient-end text-black" : "text-white/70 hover:text-white"}`}>
           <FaStar size={tab === "all" ? 24 : 18} />Todos
         </button>

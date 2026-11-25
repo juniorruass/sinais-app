@@ -65,6 +65,12 @@ export async function refreshSignals() {
   await sb.rpc("refresh_signals");
 }
 
+/** Link dos jogos vem das plataformas do admin (a 1ª ativa). O link próprio do jogo só vale se preenchido. */
+async function withLinks(games: Game[]): Promise<Game[]> {
+  const main = (await getPlatforms())[0]?.link ?? null;
+  return games.map((g) => ({ ...g, link_casa: g.link_casa?.trim() || main }));
+}
+
 export async function getGames(categoria?: string, limit?: number): Promise<Game[]> {
   const sb = await createClient();
   let q = sb.from("games").select("*").eq("ativo", true);
@@ -72,14 +78,14 @@ export async function getGames(categoria?: string, limit?: number): Promise<Game
   q = q.order("ordem").order("id");
   if (limit) q = q.limit(limit);
   const { data } = await q;
-  return (data ?? []) as Game[];
+  return withLinks((data ?? []) as Game[]);
 }
 
 export async function getTopDistributions(limit = 20): Promise<Game[]> {
   const sb = await createClient();
   const { data } = await sb.from("games").select("*").eq("ativo", true)
     .order("porcentagem", { ascending: false }).limit(limit);
-  return (data ?? []) as Game[];
+  return withLinks((data ?? []) as Game[]);
 }
 
 async function list<T>(table: string): Promise<T[]> {

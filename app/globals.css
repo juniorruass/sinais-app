@@ -8,6 +8,8 @@
 }
 
 html {
+  overflow-x: clip;
+  max-width: 100%;
   background-image: url(/fundo-mobile.png);
   background-size: contain;
   background-attachment: fixed;
@@ -16,7 +18,7 @@ html {
 @media (min-width: 40rem) {
   html { background-size: cover; }
 }
-body { font-family: var(--font-poppins), system-ui, sans-serif; }
+body { font-family: var(--font-poppins), system-ui, sans-serif; overflow-x: clip; max-width: 100%; }
 
 .border-gradient {
   border-image: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end)) 1;
