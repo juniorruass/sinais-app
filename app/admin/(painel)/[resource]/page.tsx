@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import FieldInput from "@/components/admin/FieldInput";
 import { RESOURCES } from "@/lib/adminConfig";
 import { createAdminClient } from "@/lib/supabase/server";
-import { deleteRow, saveRow } from "@/app/admin/actions";
+import SaveForm from "@/components/admin/SaveForm";
+import { deleteRow } from "@/app/admin/actions";
 
 const PER = 40;
 const btn = "rounded-xl bg-gradient-to-r from-[#d3b993] to-[#9c8460] px-5 py-2.5 text-sm font-bold text-black transition hover:brightness-110";
@@ -29,12 +30,11 @@ export default async function ResourcePage({ params, searchParams }: { params: P
   };
 
   const Form = ({ row }: { row?: Record<string, unknown> }) => (
-    <form action={saveRow} className="grid gap-4 sm:grid-cols-2">
+    <SaveForm label={row ? "Salvar alterações" : `Adicionar ${r.singular}`}>
       <input type="hidden" name="_resource" value={resource} />
       {row && <input type="hidden" name="_id" value={String(row[pk])} />}
       {r.fields.map((f) => <FieldInput key={f.name} f={f} value={row?.[f.name]} />)}
-      <div className="sm:col-span-2"><button className={btn}>{row ? "Salvar alterações" : `Adicionar ${r.singular}`}</button></div>
-    </form>
+    </SaveForm>
   );
 
   return (

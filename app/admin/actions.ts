@@ -29,21 +29,23 @@ function parse(fields: Field[], form: FormData) {
   return row;
 }
 
-export async function saveRow(form: FormData) {
+export async function saveRow(form: FormData): Promise<{ ok?: boolean; error?: string }> {
   await requireAdmin();
   const key = String(form.get("_resource"));
   const r = RESOURCES[key];
-  if (!r) throw new Error("recurso inválido");
+  if (!r) return { error: "Recurso inválido." };
   const pk = r.pk ?? "id";
   const id = String(form.get("_id") ?? "");
-  const row = parse(r.fields, form);
+  let row: Record<string, unknown>;
+  try { row = parse(r.fields, form); } catch (e) { return { error: e instanceof Error ? e.message : "Dados inválidos." }; }
   if (r.table === "games") row.updated_at = new Date().toISOString();
   const sb = createAdminClient();
   const { error } = id
     ? await sb.from(r.table).update(row).eq(pk, id)
     : await sb.from(r.table).insert(row);
-  if (error) throw new Error(error.message);
+  if (error) return { error: "Não foi possível salvar: " + error.message };
   revalidatePath("/", "layout");
+  return { ok: true };
 }
 
 export async function deleteRow(form: FormData) {
@@ -55,12 +57,16 @@ export async function deleteRow(form: FormData) {
   revalidatePath("/", "layout");
 }
 
-export async function saveSettings(form: FormData) {
+export async function saveSettings(form: FormData): Promise<{ ok?: boolean; error?: string }> {
   await requireAdmin();
-  const rows = SETTING_GROUPS.flatMap((g) => g.items).map((f) => ({ key: f.name, value: URL_FIELDS.has(f.name) ? (safeUrl(f.name, String(form.get(f.name) ?? "").trim() || null) ?? "") : String(form.get(f.name) ?? "") }));
+  let rows: { key: string; value: string }[];
+  try {
+    rows = SETTING_GROUPS.flatMap((g) => g.items).map((f) => ({ key: f.name, value: URL_FIELDS.has(f.name) ? (safeUrl(f.name, String(form.get(f.name) ?? "").trim() || null) ?? "") : String(form.get(f.name) ?? "") }));
+  } catch (e) { return { error: e instanceof Error ? e.message : "Dados inválidos." }; }
   const { error } = await createAdminClient().from("site_settings").upsert(rows, { onConflict: "key" });
-  if (error) throw new Error(error.message);
+  if (error) return { error: "Não foi possível salvar: " + error.message };
   revalidatePath("/", "layout");
+  return { ok: true };
 }
 
 export async function randomizeNow() {
