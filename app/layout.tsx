@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getSettings();
-  return { title: s.site_title, description: s.site_description, icons: { icon: s.favicon_url || "/favicon.ico" } };
+  return { title: s.site_title, description: s.site_description, icons: { icon: s.favicon_url || "/logo.svg" } };
 }
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
