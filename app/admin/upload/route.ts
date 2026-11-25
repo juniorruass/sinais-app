@@ -13,8 +13,12 @@ const TYPES: Record<string, { ext: string; ok: (b: Buffer) => boolean }> = {
 };
 
 export async function POST(req: Request) {
+  // Atrás do proxy (Apache) o Host interno é 127.0.0.1; o domínio real vem em x-forwarded-host.
   const origin = req.headers.get("origin");
-  if (origin && new URL(origin).host !== req.headers.get("host")) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  const hosts = [req.headers.get("host"), req.headers.get("x-forwarded-host")?.split(",")[0].trim()].filter(Boolean);
+  let originHost = "";
+  try { originHost = origin ? new URL(origin).host : ""; } catch {}
+  if (origin && !hosts.includes(originHost)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   if (!(await isAdminSession())) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   const form = await req.formData();
   const file = form.get("file");
