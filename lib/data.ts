@@ -81,7 +81,7 @@ export async function refreshSignals() {
 }
 
 /** Cada jogo sorteia uma plataforma ativa, proporcional ao peso definido no admin.
- *  O link próprio do jogo (se preenchido) tem prioridade. Peso 0 = a plataforma não recebe jogos. */
+ *  O link vem só das Plataformas (o campo antigo link_casa do jogo é ignorado). Peso 0 = a plataforma não recebe jogos. */
 async function withLinks(games: Game[]): Promise<Game[]> {
   const pool = (await getPlatforms()).filter((p) => p.link && (p.peso ?? 1) > 0);
   const total = pool.reduce((s, p) => s + (p.peso ?? 1), 0);
@@ -91,7 +91,7 @@ async function withLinks(games: Game[]): Promise<Game[]> {
     for (const p of pool) { r -= p.peso ?? 1; if (r < 0) return p.link; }
     return pool[pool.length - 1].link;
   };
-  return games.map((g) => ({ ...g, link_casa: g.link_casa?.trim() || pick() }));
+  return games.map((g) => ({ ...g, link_casa: pick() }));
 }
 
 export async function getGames(categoria?: string, limit?: number): Promise<Game[]> {

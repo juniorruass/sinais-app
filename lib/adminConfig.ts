@@ -24,7 +24,6 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "minima", label: "Aposta Mínima %", type: "number" },
       { name: "padrao", label: "Aposta Padrão %", type: "number" },
       { name: "maxima", label: "Aposta Máxima %", type: "number" },
-      { name: "link_casa", label: "Link próprio deste jogo (deixe VAZIO para usar a plataforma indicada)", type: "text", wide: true },
       { name: "bets", label: "Lista de apostas (uma por linha, ex: 0,40)", type: "list", wide: true, hint: "Define as faixas Mínima/Padrão/Máxima mostradas no card" },
       { name: "fixo", label: "Fixo (não muda na atualização automática)", type: "bool" },
       ...common,
