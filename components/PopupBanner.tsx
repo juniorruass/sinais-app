@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { FaChevronRight } from "react-icons/fa6";
+import { FaXmark } from "react-icons/fa6";
 import type { Popup } from "@/lib/data";
 
 const KEY = "popup_dismissed_at";
@@ -44,7 +44,7 @@ export default function PopupBanner({ popups, hours, cta }: { popups: Pick<Popup
     <div className="fixed inset-0 z-300 flex items-center justify-center p-6 transition-opacity duration-300" style={{ opacity: loaded ? 1 : 0 }}>
       <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={close} />
       <div role="dialog" aria-modal="true" className="relative z-10 w-full max-w-xs overflow-hidden rounded-2xl">
-        <button type="button" onClick={close} className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white/80 hover:bg-black/80"><FaChevronRight size={12} className="rotate-45" /></button>
+        <button type="button" onClick={close} className="absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white/80 hover:bg-black/80"><FaXmark size={14} /></button>
         <a href={cur.link ?? "#"} target="_blank" rel="noopener noreferrer" onClick={close} className="block">
           <img src={cur.image_url} alt="Promoção" width={384} height={538} onLoad={() => setLoaded(true)} style={{ display: "block", width: "100%", height: "auto", maxHeight: "calc(85dvh - 100px)" }} />
         </a>
