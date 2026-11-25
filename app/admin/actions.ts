@@ -69,12 +69,14 @@ export async function saveSettings(form: FormData): Promise<{ ok?: boolean; erro
   return { ok: true };
 }
 
-export async function randomizeNow() {
+export async function randomizeNow(): Promise<{ n: number }> {
   await requireAdmin();
   const sb = createAdminClient();
   await sb.from("site_settings").upsert({ key: "signals_slot", value: "0" }, { onConflict: "key" });
   await sb.rpc("refresh_signals");
+  const { count } = await sb.from("games").select("id", { count: "exact", head: true }).eq("fixo", false).eq("ativo", true);
   revalidatePath("/", "layout");
+  return { n: count ?? 0 };
 }
 
 export async function setUserFlags(form: FormData) {

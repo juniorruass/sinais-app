@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FaBolt } from "react-icons/fa6";
 import { RESOURCES } from "@/lib/adminConfig";
 import { createAdminClient } from "@/lib/supabase/server";
-import { randomizeNow } from "@/app/admin/actions";
+import RandomizeButton from "@/components/admin/RandomizeButton";
 
 export default async function Dashboard() {
   const sb = createAdminClient();
@@ -26,13 +26,13 @@ export default async function Dashboard() {
           </Link>
         ))}
       </div>
-      <form action={randomizeNow} className="mt-8 flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2 font-bold"><FaBolt className="text-[#d3b993]" />Sinais</div>
           <p className="mt-1 text-sm text-zinc-400">Força uma nova rodada agora. Embaralha as porcentagens dos jogos que não estão “fixos”.</p>
         </div>
-        <button className="shrink-0 rounded-xl bg-gradient-to-r from-[#d3b993] to-[#9c8460] px-5 py-2.5 font-bold text-black transition hover:brightness-110">Atualizar sinais agora</button>
-      </form>
+        <RandomizeButton />
+      </div>
     </div>
   );
 }
