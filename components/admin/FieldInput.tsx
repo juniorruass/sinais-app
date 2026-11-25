@@ -5,6 +5,16 @@ import type { Field } from "@/lib/adminConfig";
 
 const base = "w-full rounded-xl border border-zinc-700/80 bg-zinc-950/60 px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-[#d3b993] focus:ring-2 focus:ring-[#d3b993]/20";
 
+/** Converte "#abc", "#aabbcc" ou "rgb(r, g, b)" em #rrggbb (o seletor de cor só aceita esse formato). */
+function toHex(v: string) {
+  const s = v.trim();
+  if (/^#[0-9a-f]{6}$/i.test(s)) return s;
+  if (/^#[0-9a-f]{3}$/i.test(s)) return "#" + [...s.slice(1)].map((c) => c + c).join("");
+  const m = s.match(/^rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/i);
+  if (m) return "#" + [m[1], m[2], m[3]].map((n) => Math.min(255, +n).toString(16).padStart(2, "0")).join("");
+  return "#000000";
+}
+
 export default function FieldInput({ f, value }: { f: Field; value: unknown }) {
   const [img, setImg] = useState(String(value ?? ""));
   const [busy, setBusy] = useState(false);
@@ -28,7 +38,7 @@ export default function FieldInput({ f, value }: { f: Field; value: unknown }) {
   if (f.type === "select") return wrap(<select name={f.name} defaultValue={String(value ?? f.options?.[0])} className={base}>{f.options?.map((o) => <option key={o}>{o}</option>)}</select>);
   if (f.type === "number") return wrap(<input type="number" name={f.name} defaultValue={value === undefined ? (f.name === "peso" ? 1 : 0) : Number(value)} className={base} />);
   if (f.type === "color")
-    return wrap(<span className="flex gap-2"><input type="color" value={img || "#000000"} onChange={(e) => setImg(e.target.value)} className="h-10 w-14 cursor-pointer rounded-lg bg-transparent" /><input name={f.name} value={img} onChange={(e) => setImg(e.target.value)} className={base} /></span>);
+    return wrap(<span className="flex gap-2"><input type="color" value={toHex(img)} onChange={(e) => setImg(e.target.value)} className="h-10 w-14 cursor-pointer rounded-lg bg-transparent" /><input name={f.name} value={img} onChange={(e) => setImg(e.target.value)} className={base} /></span>);
   if (f.type === "image") {
     // Reduz a imagem no próprio navegador (máx. 1920px, WebP) — envia bem menos dados.
     async function shrink(fl: File): Promise<File> {

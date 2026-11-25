@@ -19,7 +19,7 @@ export const RESOURCES: Record<string, Resource> = {
       { name: "categoria", label: "Categoria", type: "select", options: ["PG", "PP", "WG", "TADA"] },
       { name: "image_url", label: "Imagem de capa", type: "image" },
       { name: "icon_url", label: "Ícone", type: "image" },
-      { name: "color_bg", label: "Cor de fundo do card", type: "text", hint: "ex: rgb(237, 82, 68) ou #ed5244" },
+      { name: "color_bg", label: "Cor de fundo do card", type: "color", hint: "ex: rgb(237, 82, 68) ou #ed5244" },
       { name: "porcentagem", label: "Distribuição %", type: "number" },
       { name: "minima", label: "Aposta Mínima %", type: "number" },
       { name: "padrao", label: "Aposta Padrão %", type: "number" },
