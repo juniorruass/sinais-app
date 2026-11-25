@@ -86,6 +86,12 @@ export const RESOURCES: Record<string, Resource> = {
 };
 
 export const SETTING_GROUPS: { grupo: string; items: Field[] }[] = [
+  { grupo: "Capas das seções", items: [
+    { name: "cover_pg", label: "Capa PG Soft", type: "image", wide: true },
+    { name: "cover_pp", label: "Capa Pragmatic Play", type: "image", wide: true },
+    { name: "cover_wg", label: "Capa WG Games", type: "image", wide: true },
+    { name: "cover_tada", label: "Capa Tada Gaming", type: "image", wide: true },
+  ] },
   { grupo: "Marca", items: [
     { name: "brand_name", label: "Nome da marca", type: "text" },
     { name: "site_title", label: "Título do site (aba do navegador)", type: "text" },

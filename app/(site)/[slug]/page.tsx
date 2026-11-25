@@ -4,11 +4,11 @@ import GamesBrowser from "@/components/GamesBrowser";
 import { createClient } from "@/lib/supabase/server";
 import { currentDomain, getFavoriteIds, getGames, getSettings, getUser } from "@/lib/data";
 
-const CATS: Record<string, { cat: string; banner: string; alt: string }> = {
-  "pg-soft": { cat: "PG", banner: "/banners/themes/gucci/pg.png", alt: "PG Soft" },
-  pragmatic: { cat: "PP", banner: "/banners/themes/gucci/pp.png", alt: "Pragmatic Play" },
-  "wg-games": { cat: "WG", banner: "/banners/themes/gucci/wg.png", alt: "WG Games" },
-  "tada-gaming": { cat: "TADA", banner: "/banners/themes/gucci/tada.png", alt: "Tada Gaming" },
+const CATS: Record<string, { cat: string; cover: string; alt: string }> = {
+  "pg-soft": { cat: "PG", cover: "cover_pg", alt: "PG Soft" },
+  pragmatic: { cat: "PP", cover: "cover_pp", alt: "Pragmatic Play" },
+  "wg-games": { cat: "WG", cover: "cover_wg", alt: "WG Games" },
+  "tada-gaming": { cat: "TADA", cover: "cover_tada", alt: "Tada Gaming" },
 };
 
 export default async function SlugPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -21,8 +21,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       <div className="relative">
         <div className="mx-auto w-full max-w-5xl">
           <div className="relative w-full overflow-hidden pb-6">
-            <div className="relative mx-auto aspect-[1920/1080] w-full max-w-xl shrink-0 overflow-hidden rounded-4xl">
-              <img alt={c.alt} src={c.banner} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="relative mx-auto w-full max-w-3xl shrink-0 overflow-hidden rounded-4xl">
+              <img alt={c.alt} src={s[c.cover]} className="block h-auto w-full" />
             </div>
           </div>
         </div>
