@@ -3,6 +3,8 @@ import FieldInput from "@/components/admin/FieldInput";
 import { RESOURCES } from "@/lib/adminConfig";
 import { createAdminClient } from "@/lib/supabase/server";
 import SaveForm from "@/components/admin/SaveForm";
+import RowsEditor from "@/components/admin/RowsEditor";
+import { ROW_SCHEMAS } from "@/lib/rowSchemas";
 import { deleteRow } from "@/app/admin/actions";
 
 const PER = 40;
@@ -33,7 +35,10 @@ export default async function ResourcePage({ params, searchParams }: { params: P
     <SaveForm label={row ? "Salvar alterações" : `Adicionar ${r.singular}`}>
       <input type="hidden" name="_resource" value={resource} />
       {row && <input type="hidden" name="_id" value={String(row[pk])} />}
-      {r.fields.map((f) => <FieldInput key={f.name} f={f} value={row?.[f.name]} />)}
+      {r.fields.map((f) =>
+        r.table === "pages" && f.name === "content" && row && ROW_SCHEMAS[String(row.slug)]
+          ? <RowsEditor key={f.name} name={f.name} slug={String(row.slug)} value={String(row.content ?? "")} />
+          : <FieldInput key={f.name} f={f} value={row?.[f.name]} />)}
     </SaveForm>
   );
 
