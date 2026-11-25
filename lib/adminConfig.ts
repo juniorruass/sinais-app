@@ -32,12 +32,13 @@ export const RESOURCES: Record<string, Resource> = {
   },
   plataformas: {
     table: "platforms", title: "Plataformas indicadas", singular: "plataforma",
-    summary: (r) => `${r.nome ?? "(sem nome)"} → ${r.link}`,
+    summary: (r) => `${r.nome ?? "(sem nome)"} (peso ${r.peso ?? 1}) → ${r.link}`,
     fields: [
       { name: "nome", label: "Nome", type: "text" },
       { name: "image_url", label: "Logo", type: "image" },
       { name: "link", label: "Link", type: "text", wide: true },
       { name: "badge", label: "Selo (ex: Nova)", type: "text" },
+      { name: "peso", label: "Peso dos jogos que vão para esta plataforma (1 = normal, 3 = 3x mais, 0 = nenhum jogo)", type: "number", hint: "Cada jogo sorteia uma plataforma ativa, proporcional ao peso. Ex.: A = 3 e B = 1 → 75% dos jogos vão para A e 25% para B." },
       ...common,
     ],
   },

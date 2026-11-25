@@ -7,7 +7,7 @@ export type Game = {
   porcentagem: number; minima: number; padrao: number; maxima: number;
   link_casa: string | null; bets: string[]; fixo: boolean; ativo: boolean; ordem: number;
 };
-export type Platform = { id: number; nome: string | null; image_url: string; link: string; badge: string | null };
+export type Platform = { id: number; nome: string | null; image_url: string; link: string; badge: string | null; peso?: number };
 export type Slide = { id: number; image_url: string; alt: string | null; link: string | null };
 export type Popup = { id: number; image_url: string; link: string | null; peso?: number };
 export type MenuItem = { id: number; label: string; href: string; icon_url: string | null; externo: boolean };
@@ -65,10 +65,18 @@ export async function refreshSignals() {
   await sb.rpc("refresh_signals");
 }
 
-/** Link dos jogos vem das plataformas do admin (a 1ª ativa). O link próprio do jogo só vale se preenchido. */
+/** Cada jogo sorteia uma plataforma ativa, proporcional ao peso definido no admin.
+ *  O link próprio do jogo (se preenchido) tem prioridade. Peso 0 = a plataforma não recebe jogos. */
 async function withLinks(games: Game[]): Promise<Game[]> {
-  const main = (await getPlatforms())[0]?.link ?? null;
-  return games.map((g) => ({ ...g, link_casa: g.link_casa?.trim() || main }));
+  const pool = (await getPlatforms()).filter((p) => p.link && (p.peso ?? 1) > 0);
+  const total = pool.reduce((s, p) => s + (p.peso ?? 1), 0);
+  const pick = () => {
+    if (!pool.length) return null;
+    let r = Math.random() * total;
+    for (const p of pool) { r -= p.peso ?? 1; if (r < 0) return p.link; }
+    return pool[pool.length - 1].link;
+  };
+  return games.map((g) => ({ ...g, link_casa: g.link_casa?.trim() || pick() }));
 }
 
 export async function getGames(categoria?: string, limit?: number): Promise<Game[]> {
