@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 
 // Renova a sessão do Supabase a cada requisição (Next 16: proxy.ts substitui middleware.ts)
 export async function proxy(request: NextRequest) {
+  // visitante sem login: não precisa consultar o Supabase
+  if (!request.cookies.getAll().some((c) => c.name.startsWith("sb-"))) return NextResponse.next({ request });
   let response = NextResponse.next({ request });
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -6,8 +6,7 @@ import BottomNav from "@/components/BottomNav";
 import PopupBanner from "@/components/PopupBanner";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  await refreshSignals();
-  const [s, user, menu, popups] = await Promise.all([getSettings(), getUser(), getMenuItems(), getPopups()]);
+  const [s, user, menu, popups] = await Promise.all([getSettings(), getUser(), getMenuItems(), getPopups(), refreshSignals()]);
   const mask = (n: string) => ({ maskImage: `url(/footer/${n})`, WebkitMaskImage: `url(/footer/${n})`, maskSize: "contain", WebkitMaskSize: "contain", maskRepeat: "no-repeat", WebkitMaskRepeat: "no-repeat", maskPosition: "center", WebkitMaskPosition: "center" }) as React.CSSProperties;
   return (
     <div className="relative pb-20">

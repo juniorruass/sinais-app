@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createPublicClient } from "@/lib/supabase/server";
+import { clearMemo, memo } from "@/lib/memo";
 
 export type Game = {
   id: number; nome: string; categoria: "PG" | "PP" | "WG" | "TADA";
@@ -54,8 +55,7 @@ export async function currentDomain(): Promise<string> {
 }
 
 export async function getSettings(): Promise<Settings> {
-  const sb = await createClient();
-  const { data } = await sb.from("site_settings").select("key,value");
+  const data = await memo("settings", 30_000, async () => (await createPublicClient().from("site_settings").select("key,value")).data);
   const s = { ...SETTING_DEFAULTS };
   for (const r of data ?? []) if (r.value !== "" || !(r.key in s)) s[r.key] = r.value;
   // site_domain vazio ou "auto" = usa o domínio de acesso; preencher no admin força um domínio fixo.
@@ -64,9 +64,10 @@ export async function getSettings(): Promise<Settings> {
 }
 
 /** Dispara a atualização dos sinais (no banco) quando o intervalo virou. */
+let lastSlot: unknown = null;
 export async function refreshSignals() {
-  const sb = await createClient();
-  await sb.rpc("refresh_signals");
+  const { data } = await createPublicClient().rpc("refresh_signals");
+  if (data !== lastSlot) { lastSlot = data; clearMemo(); } // rodada nova: descarta o cache
 }
 
 /** Cada jogo sorteia uma plataforma ativa, proporcional ao peso definido no admin.
@@ -84,25 +85,25 @@ async function withLinks(games: Game[]): Promise<Game[]> {
 }
 
 export async function getGames(categoria?: string, limit?: number): Promise<Game[]> {
-  const sb = await createClient();
-  let q = sb.from("games").select("*").eq("ativo", true);
-  if (categoria) q = q.eq("categoria", categoria);
-  q = q.order("ordem").order("id");
-  if (limit) q = q.limit(limit);
-  const { data } = await q;
+  const data = await memo(`games:${categoria ?? ""}:${limit ?? ""}`, 20_000, async () => {
+    let q = createPublicClient().from("games").select("*").eq("ativo", true);
+    if (categoria) q = q.eq("categoria", categoria);
+    q = q.order("ordem").order("id");
+    if (limit) q = q.limit(limit);
+    return (await q).data;
+  });
   return withLinks((data ?? []) as Game[]);
 }
 
 export async function getTopDistributions(limit = 20): Promise<Game[]> {
-  const sb = await createClient();
-  const { data } = await sb.from("games").select("*").eq("ativo", true)
-    .order("porcentagem", { ascending: false }).limit(limit);
+  const data = await memo(`top:${limit}`, 20_000, async () =>
+    (await createPublicClient().from("games").select("*").eq("ativo", true).order("porcentagem", { ascending: false }).limit(limit)).data);
   return withLinks((data ?? []) as Game[]);
 }
 
 async function list<T>(table: string): Promise<T[]> {
-  const sb = await createClient();
-  const { data } = await sb.from(table).select("*").eq("ativo", true).order("ordem").order("id");
+  const data = await memo(`list:${table}`, 30_000, async () =>
+    (await createPublicClient().from(table).select("*").eq("ativo", true).order("ordem").order("id")).data);
   return (data ?? []) as T[];
 }
 export const getPlatforms = () => list<Platform>("platforms");

@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { RESOURCES, SETTING_GROUPS, type Field } from "@/lib/adminConfig";
+import { clearMemo } from "@/lib/memo";
 import { createAdminClient } from "@/lib/supabase/server";
 
 // Links só podem ser http(s), caminho do site (/...) ou âncora — bloqueia javascript:, data: etc.
@@ -44,7 +45,7 @@ export async function saveRow(form: FormData): Promise<{ ok?: boolean; error?: s
     ? await sb.from(r.table).update(row).eq(pk, id)
     : await sb.from(r.table).insert(row);
   if (error) return { error: "Não foi possível salvar: " + error.message };
-  revalidatePath("/", "layout");
+  clearMemo(); revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -54,7 +55,7 @@ export async function deleteRow(form: FormData) {
   if (!r) throw new Error("recurso inválido");
   const { error } = await createAdminClient().from(r.table).delete().eq(r.pk ?? "id", String(form.get("_id")));
   if (error) throw new Error(error.message);
-  revalidatePath("/", "layout");
+  clearMemo(); revalidatePath("/", "layout");
 }
 
 export async function saveSettings(form: FormData): Promise<{ ok?: boolean; error?: string }> {
@@ -65,7 +66,7 @@ export async function saveSettings(form: FormData): Promise<{ ok?: boolean; erro
   } catch (e) { return { error: e instanceof Error ? e.message : "Dados inválidos." }; }
   const { error } = await createAdminClient().from("site_settings").upsert(rows, { onConflict: "key" });
   if (error) return { error: "Não foi possível salvar: " + error.message };
-  revalidatePath("/", "layout");
+  clearMemo(); revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -75,7 +76,7 @@ export async function randomizeNow(): Promise<{ n: number }> {
   await sb.from("site_settings").upsert({ key: "signals_slot", value: "0" }, { onConflict: "key" });
   await sb.rpc("refresh_signals");
   const { count } = await sb.from("games").select("id", { count: "exact", head: true }).eq("fixo", false).eq("ativo", true);
-  revalidatePath("/", "layout");
+  clearMemo(); revalidatePath("/", "layout");
   return { n: count ?? 0 };
 }
 

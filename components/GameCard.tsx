@@ -95,7 +95,7 @@ export default function GameCard({
       )}
       <a href={href} target="_blank" rel="noopener noreferrer" className="relative block transition-all duration-300 hover:opacity-75">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt={g.nome} width={470} height={470} src={g.image_url ?? "/placeholder.png"} className="h-[150px] w-full object-cover" />
+        <img alt={g.nome} width={470} height={470} loading="lazy" decoding="async" src={g.image_url ?? "/placeholder.png"} className="h-[150px] w-full object-cover" />
         <div className="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/60 to-transparent" />
       </a>
       <a href={href} target="_blank" rel="noopener noreferrer">
